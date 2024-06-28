@@ -34,13 +34,15 @@ public class DeviceController {
     public Device getDeviceById (@PathVariable UUID deviceId){
         return  deviceService.findById(deviceId);
     }
-//    @PutMapping("/{employeeId}")
-//    public Employee putEmployee (@PathVariable UUID employeeId, @RequestBody Employee employee){
-//        return employeeService.findAndUpload(employeeId, employee);
-//    }
-//    @DeleteMapping("{employeeId}")
-//    public void deleteEmployee(@PathVariable UUID employeeId){
-//        employeeService.findByIdAndDelete(employeeId);
-//    }
+    @PutMapping("/{deviceId}")
+    public Device putDevice(@PathVariable UUID deviceId, @RequestBody Device device, @RequestParam UUID employeeId){
+        return deviceService.findAndUpload(deviceId,employeeId,device);
+    }
+    @DeleteMapping("/{deviceId}")
+    public void deleteDevice(@PathVariable UUID deviceId){
+        deviceService.findByIdAndDelete(deviceId);
+    }
+
+
 
 }
