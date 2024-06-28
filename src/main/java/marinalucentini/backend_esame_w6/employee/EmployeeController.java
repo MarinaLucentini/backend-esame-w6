@@ -9,6 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/eployees")
 public class EmployeeController {
@@ -26,4 +28,9 @@ return new EmployeeResponseDto( employeeService.saveEmployee(employeeDto).getId(
     public Page<Employee> getEmployee (@RequestParam (defaultValue = "0")int page, @RequestParam (defaultValue = "5")int size, @RequestParam (defaultValue = "name")String sortBy){
 return employeeService.getEmployee(page, size, sortBy);
 }
+@GetMapping("/{employeeId}")
+    public Employee getEmployeeById (@PathVariable UUID employeeId){
+return  employeeService.findById(employeeId);
+}
+
 }
