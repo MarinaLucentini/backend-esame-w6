@@ -2,6 +2,8 @@ package marinalucentini.backend_esame_w6.employee;
 
 import marinalucentini.backend_esame_w6.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -20,4 +22,8 @@ if(bindingResult.hasErrors()){
 }
 return new EmployeeResponseDto( employeeService.saveEmployee(employeeDto).getId());
     }
+@GetMapping
+    public Page<Employee> getEmployee (@RequestParam (defaultValue = "0")int page, @RequestParam (defaultValue = "5")int size, @RequestParam (defaultValue = "name")String sortBy){
+return employeeService.getEmployee(page, size, sortBy);
+}
 }
