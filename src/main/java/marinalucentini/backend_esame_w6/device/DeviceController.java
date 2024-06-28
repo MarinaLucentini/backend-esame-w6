@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/devices")
 public class DeviceController {
@@ -28,5 +30,17 @@ public class DeviceController {
     public Page<Device> getDevice (@RequestParam (defaultValue = "0")int page, @RequestParam (defaultValue = "5")int size){
         return deviceService.getEmployee(page, size);
     }
+    @GetMapping("/{deviceId}")
+    public Device getDeviceById (@PathVariable UUID deviceId){
+        return  deviceService.findById(deviceId);
+    }
+//    @PutMapping("/{employeeId}")
+//    public Employee putEmployee (@PathVariable UUID employeeId, @RequestBody Employee employee){
+//        return employeeService.findAndUpload(employeeId, employee);
+//    }
+//    @DeleteMapping("{employeeId}")
+//    public void deleteEmployee(@PathVariable UUID employeeId){
+//        employeeService.findByIdAndDelete(employeeId);
+//    }
 
 }
