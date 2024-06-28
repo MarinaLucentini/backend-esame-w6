@@ -22,24 +22,24 @@ public class DeviceService {
     DeviceRepository deviceRepository;
     @Autowired
     EmployeeService employeeService;
-    public TypeDevice typeDevice (DeviceDto deviceDto){
+    public TypeDevice typeDevice (String deviceDto){
         try{
-           return   TypeDevice.valueOf(deviceDto.typeDevice().toUpperCase());
+           return   TypeDevice.valueOf(deviceDto.toUpperCase());
 
         } catch (IllegalArgumentException ex){
             throw new BadRequestException("Il tipo del dispositivo deve essere SMARTPHONE,TABLET O LAPTOP!");
         }
     }
-    public StateDevice stateDevice (DeviceDto deviceDto){
+    public StateDevice stateDevice (String deviceDto){
         try{
-           return   StateDevice.valueOf(deviceDto.stateDevice().toUpperCase());
+           return   StateDevice.valueOf(deviceDto.toUpperCase());
 
         } catch (IllegalArgumentException ex){
             throw new BadRequestException("Lo stato del dispositivo deve essere AVAIBLE, ASSIGNED, MAINTENANCE, DISMISSED!");
         }
     }
     public Device saveDevice (DeviceDto deviceDto){
-            Device newDevice = new Device(typeDevice(deviceDto), stateDevice(deviceDto));
+            Device newDevice = new Device(typeDevice(deviceDto.typeDevice()), stateDevice(deviceDto.typeDevice()));
             return deviceRepository.save(newDevice);
     }
     public Page<Device> getEmployee(int page, int size){
@@ -50,13 +50,12 @@ public class DeviceService {
     public Device findById(UUID id){
         return deviceRepository.findById(id).orElseThrow(()-> new NotFoundException(id));
     }
-    public Device findAndUpload(UUID deviceId, UUID employeeId, Device device){
+    public Device findAndUpload(UUID deviceId, DeviceUploadDto device){
         Device found= findById(deviceId);
-        Employee employeefound = employeeService.findById(employeeId);
-        found.setStateDevice(device.getStateDevice());
-        found.setTypeDevice(device.getTypeDevice());
-        found.setEmployee(employeefound);
+        Employee employeefound = employeeService.findById(UUID.fromString(device.employeeId()));
 
+        found.setStateDevice(stateDevice(device.stateDevice()));
+        found.setEmployee(employeefound);
         return   deviceRepository.save(found);
     }
     public void findByIdAndDelete(UUID deviceId) {
