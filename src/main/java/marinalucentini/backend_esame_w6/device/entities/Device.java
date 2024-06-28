@@ -27,9 +27,8 @@ private UUID id;
     @JoinColumn (name = "employee_id")
     private Employee employee;
 
-    public Device(TypeDevice typeDevice, StateDevice stateDevice, Employee employee) {
+    public Device(TypeDevice typeDevice, StateDevice stateDevice) {
         this.typeDevice = typeDevice;
         this.stateDevice = stateDevice;
-        this.employee = employee;
     }
 }
