@@ -1,9 +1,11 @@
 package marinalucentini.backend_esame_w6.device;
 
 import marinalucentini.backend_esame_w6.device.entities.Device;
+import marinalucentini.backend_esame_w6.employee.Employee;
 import marinalucentini.backend_esame_w6.employee.EmployeeResponseDto;
 import marinalucentini.backend_esame_w6.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +23,10 @@ public class DeviceController {
             throw new BadRequestException(bindingResult.getAllErrors());
         }
         return new DeviceResponseDto(deviceService.saveDevice(deviceDto).getId());
+    }
+    @GetMapping
+    public Page<Device> getDevice (@RequestParam (defaultValue = "0")int page, @RequestParam (defaultValue = "5")int size){
+        return deviceService.getEmployee(page, size);
     }
 
 }

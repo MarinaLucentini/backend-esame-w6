@@ -42,9 +42,9 @@ public class DeviceService {
             Device newDevice = new Device(typeDevice(deviceDto), stateDevice(deviceDto));
             return deviceRepository.save(newDevice);
     }
-    public Page<Device> getEmployee(int page, int size, String sortBy){
+    public Page<Device> getEmployee(int page, int size){
         if(size > 50) size = 50;
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(page, size);
         return   deviceRepository.findAll(pageable);
     }
     public Device findById(UUID id){
