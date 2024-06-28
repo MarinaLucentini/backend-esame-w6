@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -40,4 +42,12 @@ return employeeService.findAndUpload(employeeId, employee);
     public void deleteEmployee(@PathVariable UUID employeeId){
 employeeService.findByIdAndDelete(employeeId);
 }
+
+
+@PostMapping("/{employeeId}/avatar")
+    public Employee uploadAvatar(@PathVariable UUID employeeId, @RequestParam("avatar") MultipartFile image) throws IOException {
+        String imageUrl = employeeService.uploadImage(image);
+        Employee updatedEmployee = employeeService.saveImage(imageUrl, employeeId);
+        return updatedEmployee;
+    }
 }

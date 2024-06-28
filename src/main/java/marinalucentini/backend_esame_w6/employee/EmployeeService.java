@@ -1,5 +1,7 @@
 package marinalucentini.backend_esame_w6.employee;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import marinalucentini.backend_esame_w6.exceptions.BadRequestException;
 import marinalucentini.backend_esame_w6.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +10,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
 public class EmployeeService {
    @Autowired
     EmployeeRepository employeeRepository;
+   @Autowired
+    Cloudinary cloudinary;
 
 public Employee saveEmployee(EmployeeDto employeeDto){
 employeeRepository.findByEmail(employeeDto.email()).ifPresent(
@@ -48,5 +54,13 @@ public Employee findAndUpload(UUID id, Employee employee){
     public void findByIdAndDelete(UUID employeeId) {
         Employee found = this.findById(employeeId);
         employeeRepository.delete(found);
+    }
+public String uploadImage(MultipartFile file) throws IOException {
+    return (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+}
+    public Employee saveImage(String urlImage, UUID employeeId){
+        Employee employeeFound = findById(employeeId);
+        employeeFound.setUrlavatar(urlImage);
+        return employeeRepository.save(employeeFound);
     }
 }
