@@ -32,5 +32,8 @@ return employeeService.getEmployee(page, size, sortBy);
     public Employee getEmployeeById (@PathVariable UUID employeeId){
 return  employeeService.findById(employeeId);
 }
-
+@PutMapping("/{employeeId}")
+    public Employee putEmployee (@PathVariable UUID employeeId, @RequestBody Employee employee){
+return employeeService.findAndUpload(employeeId, employee);
+}
 }

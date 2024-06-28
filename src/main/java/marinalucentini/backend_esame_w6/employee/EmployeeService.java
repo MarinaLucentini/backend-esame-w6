@@ -36,4 +36,13 @@ Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 public Employee findById(UUID id){
 return employeeRepository.findById(id).orElseThrow(()-> new NotFoundException(id));
 }
+public Employee findAndUpload(UUID id, Employee employee){
+    Employee found= findById(id);
+    found.setEmail(employee.getEmail());
+    found.setName(employee.getName());
+    found.setSurname(employee.getSurname());
+    found.setUrlavatar("https://unsplash.com/it/foto/donna-in-camicia-nera-sorridente-lNNHyRbmm0o");
+    found.setUsername(employee.getUsername());
+    return   employeeRepository.save(found);
+}
 }
