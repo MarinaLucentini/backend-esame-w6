@@ -36,4 +36,8 @@ return  employeeService.findById(employeeId);
     public Employee putEmployee (@PathVariable UUID employeeId, @RequestBody Employee employee){
 return employeeService.findAndUpload(employeeId, employee);
 }
+@DeleteMapping("{employeeId}")
+    public void deleteEmployee(@PathVariable UUID employeeId){
+employeeService.findByIdAndDelete(employeeId);
+}
 }

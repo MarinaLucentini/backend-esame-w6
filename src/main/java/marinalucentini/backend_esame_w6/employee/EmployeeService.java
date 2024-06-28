@@ -45,4 +45,8 @@ public Employee findAndUpload(UUID id, Employee employee){
     found.setUsername(employee.getUsername());
     return   employeeRepository.save(found);
 }
+    public void findByIdAndDelete(UUID employeeId) {
+        Employee found = this.findById(employeeId);
+        employeeRepository.delete(found);
+    }
 }
